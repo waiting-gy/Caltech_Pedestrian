@@ -195,12 +195,12 @@ def train():
 
         loss_list.append(loss.item())
 
-        plt.cla()
-        plt.plot(loss_list,label='loss')
+        #plt.cla()
+        #plt.plot(loss_list,label='loss')
         #plt.plot(accur_list,label='accuracy')
-        plt.legend()
-        plt.title('training loss')
-        plt.pause(0.0001)
+        #plt.legend()
+        #plt.title('training loss')
+        #plt.pause(0.0001)
 
         if iteration % 10 == 0:
             print('timer: %.4f sec.' % (t1 - t0))
@@ -217,7 +217,10 @@ def train():
             print('Saving state, iter:', iteration)
             torch.save(ssd_net.state_dict(), 'weights/ssd300_COCO_' +
                        repr(iteration) + '.pth')
-    plt.ifoff()
+    #plt.ifoff()
+    plt.plot(loss_list,label='loss')
+    plt.title('training loss')
+    plt.legend()
     plt.show()
 
     torch.save(ssd_net.state_dict(),
