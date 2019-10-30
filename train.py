@@ -31,7 +31,7 @@ parser.add_argument('--dataset_root', default=VOC_ROOT,
                     help='Dataset root directory path')
 parser.add_argument('--basenet', default='vgg16_reducedfc.pth',
                     help='Pretrained base model')
-parser.add_argument('--batch_size', default=4, type=int,
+parser.add_argument('--batch_size', default=2, type=int,
                     help='Batch size for training')
 parser.add_argument('--resume', default=None, type=str,
                     help='Checkpoint state_dict file to resume training from')
@@ -192,7 +192,15 @@ def train():
         #conf_loss += loss_c.data[0]
         loc_loss += loss_l.item()
         conf_loss += loss_c.item()
+
         loss_list.append(loss.item())
+
+        plt.cla()
+        plt.plot(loss_list,label='loss')
+        #plt.plot(accur_list,label='accuracy')
+        plt.legend()
+        plt.title('training loss')
+        plt.pause(0.0001)
 
         if iteration % 10 == 0:
             print('timer: %.4f sec.' % (t1 - t0))
@@ -209,11 +217,7 @@ def train():
             print('Saving state, iter:', iteration)
             torch.save(ssd_net.state_dict(), 'weights/ssd300_COCO_' +
                        repr(iteration) + '.pth')
-
-    plt.plot(loss_list,label='loss')
-    #plt.plot(accur_list,label='accuracy')
-    plt.legend()
-    plt.title('training loss')
+    plt.ifoff()
     plt.show()
 
     torch.save(ssd_net.state_dict(),
